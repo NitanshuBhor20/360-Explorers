@@ -55,14 +55,14 @@ const Footer = () => {
             </div>
             
             <div className="flex flex-col items-end gap-2 pt-4">
-              <a href="tel:+917770000206" className="text-xl md:text-2xl font-black text-white hover:text-[#14B8A6] transition-colors">
-                +91-7770000206
+              <a href="tel:+919730277759" className="text-xl md:text-2xl font-black text-white hover:text-[#14B8A6] transition-colors">
+                +91-9730277759
               </a>
-              <a href="tel:+917770000205" className="text-xl md:text-2xl font-black text-white hover:text-[#14B8A6] transition-colors">
-                +91-7770000205
+              <a href="tel:+919730277759" className="text-xl md:text-2xl font-black text-white hover:text-[#14B8A6] transition-colors">
+                +91-9730277759
               </a>
               <a href="mailto:contact@example.com" className="text-gray-400 text-sm hover:text-[#14B8A6] transition-colors mt-2">
-                contact@example.com
+                www.360explore.com
               </a>
             </div>
           </div>

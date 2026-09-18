@@ -3,9 +3,7 @@
  */
 
 export const WHATSAPP_CONFIG = {
-  // CONFIGURATION: Replace with the actual owner's WhatsApp number 
-  // (format: country code + number, NO '+' sign, spaces, or dashes)
-  OWNER_NUMBER: '919595636026', // Updated to match the contact number in footer
+  OWNER_NUMBER: '919730277759',
   DEFAULT_MESSAGE: 'Hello! I have a few questions about the tour plan.',
 };
 
@@ -26,7 +24,8 @@ export const validateWhatsAppNumber = (number: string): boolean => {
  * @returns The formatted WhatsApp URL
  */
 export const getWhatsAppUrl = (message?: string): string => {
-  const number = WHATSAPP_CONFIG.OWNER_NUMBER;
+  const rawNumber = WHATSAPP_CONFIG.OWNER_NUMBER;
+  const number = rawNumber.replace(/[+\s-]/g, '');
   const text = encodeURIComponent(message || WHATSAPP_CONFIG.DEFAULT_MESSAGE);
 
   if (!validateWhatsAppNumber(number)) {
@@ -34,7 +33,6 @@ export const getWhatsAppUrl = (message?: string): string => {
     return '#';
   }
 
-  // wa.me is the official WhatsApp link format that handles app vs web automatically
   return `https://wa.me/${number}?text=${text}`;
 };
 
