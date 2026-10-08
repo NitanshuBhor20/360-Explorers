@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { 
   ChevronLeft, User, Mail, Phone, Calendar, Users, MapPin, 
   ShieldCheck, CreditCard, Clock, CheckCircle2, QrCode, 
-  Download, Printer, Share2, ChevronRight, Armchair, Tent,
+  Download, Printer, Share2, ChevronRight,
   Loader2
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -249,8 +249,7 @@ const BookingPage = () => {
   
   const [adventure, setAdventure] = useState<Adventure | null>(null);
   const [loading, setLoading] = useState(true);
-  const [step, setStep] = useState<'details' | 'selection' | 'payment' | 'ticket'>('details');
-  const [selectedSeat, setSelectedSeat] = useState<number | null>(null);
+  const [step, setStep] = useState<'details' | 'payment' | 'ticket'>('details');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
@@ -325,18 +324,12 @@ const BookingPage = () => {
 
   const steps = [
     { id: 'details', label: 'Details', icon: <User className="w-4 h-4" /> },
-    { id: 'selection', label: 'Selection', icon: <Armchair className="w-4 h-4" /> },
     { id: 'payment', label: 'Payment', icon: <CreditCard className="w-4 h-4" /> },
     { id: 'ticket', label: 'Ticket', icon: <CheckCircle2 className="w-4 h-4" /> },
   ];
 
-  const handleProceedToSelection = (e: React.FormEvent) => {
+  const handleProceedToPayment = (e: React.FormEvent) => {
     e.preventDefault();
-    setStep('selection');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleProceedToPayment = () => {
     setStep('payment');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -801,98 +794,13 @@ const BookingPage = () => {
             </button>
             
             <button 
-              onClick={() => setStep('selection')}
+              onClick={() => setStep('details')}
               className="w-full text-gray-400 font-black text-[9px] uppercase tracking-widest hover:text-[#1A2B3C] transition-colors"
             >
-              Back to Selection
+              Back to Details
             </button>
           </div>
         </motion.div>
-      </div>
-    );
-  }
-
-  if (step === 'selection') {
-    return (
-      <div className="bg-white min-h-screen pt-48 pb-24">
-        <div className="max-w-7xl mx-auto px-6">
-          <ProgressIndicator />
-          
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-            <div className="lg:col-span-8 space-y-12">
-               <div className="space-y-4 border-b border-gray-100 pb-8">
-                  <h2 className="text-4xl font-serif-luxury text-[#1A2B3C] tracking-tight uppercase">Select Your Base</h2>
-                  <p className="text-gray-400 font-medium text-sm tracking-wide">Choose your preferred tent/jeep allocation for the expedition.</p>
-               </div>
-
-               <div className="bg-[#FDFBF7] border border-gray-100 p-12 text-center shadow-sm">
-                  <div className="grid grid-cols-4 md:grid-cols-6 gap-6 max-w-2xl mx-auto">
-                    {[...Array(24)].map((_, i) => {
-                      const isBooked = [3, 7, 12, 18].includes(i);
-                      const isSelected = selectedSeat === i;
-                      return (
-                        <button
-                          key={i}
-                          disabled={isBooked}
-                          onClick={() => setSelectedSeat(i)}
-                          className={`aspect-square flex flex-col items-center justify-center gap-1 transition-all border ${
-                            isBooked ? 'bg-gray-100 border-gray-100 text-gray-300 cursor-not-allowed' :
-                            isSelected ? 'bg-[#1A2B3C] border-[#1A2B3C] text-white scale-110 shadow-xl' :
-                            'bg-white border-gray-200 text-[#1A2B3C] hover:border-[#1A2B3C]'
-                          }`}
-                        >
-                          <Tent className="w-4 h-4" />
-                          <span className="text-[8px] font-black">{i + 1}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                  
-                  <div className="flex justify-center gap-8 mt-12 pt-8 border-t border-gray-200">
-                    <div className="flex items-center gap-3">
-                      <div className="w-3 h-3 bg-white border border-gray-200" />
-                      <span className="text-[8px] font-black text-gray-400 uppercase tracking-widest">Available</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-3 h-3 bg-[#1A2B3C]" />
-                      <span className="text-[8px] font-black text-gray-400 uppercase tracking-widest">Selected</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-3 h-3 bg-gray-100" />
-                      <span className="text-[8px] font-black text-gray-400 uppercase tracking-widest">Occupied</span>
-                    </div>
-                  </div>
-               </div>
-
-               <div className="flex justify-between items-center">
-                 <button 
-                  onClick={() => setStep('details')}
-                  className="text-gray-400 font-black text-[9px] uppercase tracking-widest hover:text-[#1A2B3C] transition-colors"
-                 >
-                   Back to Details
-                 </button>
-                 <button 
-                  onClick={handleProceedToPayment}
-                  disabled={selectedSeat === null}
-                  className="bg-[#1A2B3C] text-white px-12 py-5 text-[10px] font-black uppercase tracking-[0.2em] shadow-2xl hover:bg-black disabled:opacity-50 disabled:hover:scale-100 transition-all flex items-center gap-3"
-                 >
-                   Secure Booking
-                   <ChevronRight className="w-4 h-4" />
-                 </button>
-               </div>
-            </div>
-
-            <div className="lg:col-span-4">
-              <OrderSummary 
-                adventure={adventure} 
-                passengers={formData.passengers} 
-                currencySymbol={currencySymbol}
-                displayAmountFormatted={displayAmountFormatted}
-                getDisplayPrice={getDisplayPrice}
-              />
-            </div>
-          </div>
-        </div>
       </div>
     );
   }
@@ -904,7 +812,7 @@ const BookingPage = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
           <div className="lg:col-span-8">
-            <form onSubmit={handleProceedToSelection} className="space-y-12">
+            <form onSubmit={handleProceedToPayment} className="space-y-12">
               <div className="bg-[#FDFBF7] border border-gray-100 p-10 md:p-14 space-y-12 shadow-sm">
                 <div className="flex items-center gap-6">
                   <div className="w-16 h-16 bg-white border border-gray-100 flex items-center justify-center">
@@ -1053,7 +961,7 @@ const BookingPage = () => {
                 type="submit"
                 className="w-full bg-[#1A2B3C] text-white py-7 text-[11px] font-black uppercase tracking-[0.2em] shadow-2xl hover:bg-black hover:scale-[1.01] transition-all flex items-center justify-center gap-4 group"
               >
-                Continue to Selection
+                Continue to Payment
                 <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
             </form>
