@@ -20,8 +20,8 @@ const Header = () => {
           onClick={() => setSearchQuery('')}
         >
           <img 
-            src="/image/logo.png" 
-            alt="360 Explorer" 
+            src="/image/Eureka-logo.jpg" 
+            alt="Eureka-trips" 
             className="h-10 sm:h-16 w-auto object-contain"
           />
         </Link>

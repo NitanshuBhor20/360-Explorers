@@ -23,7 +23,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "360 Explorer Expeditions | Luxury Travel",
+  title: "Eureka-trips",
   description: "Bespoke luxury expeditions to the ends of the earth.",
 };
 
